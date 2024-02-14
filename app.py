@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash,g
 import csv
+import sqlite3
 import random
 import string
 import hashlib
@@ -8,6 +9,25 @@ import binascii
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'tajnehalo'
 
+app_info = {
+    'db_file':'hotel.db'
+}
+
+
+import sqlite3
+from flask import g
+
+def get_db():
+    if not hasattr(g, 'sqlite_db'):
+        conn = sqlite3.connect(app_info['db_file'])
+        conn.row_factory = sqlite3.Row
+        g.sqlite_db = conn
+    return g.sqlite_db
+
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
 class PriorityType:
     def __init__(self, code, description, selected):
         self.code = code
@@ -70,6 +90,10 @@ def opis():
     if czas != 'dzien':
         priorytet = 'high'
         flash('zmieniono priorytet na wysoki')
+    db = get_db()
+    sql_command = 'insert into usterki (nr_pokoju, nazwisko , opis_usterki , priorytet ) values (?,?,?,?)'
+    db.execute(sql_command, [numer_pokoju,nazwisko,opis_usterki, priorytet])
+    db.commit()
 
 
     with open('data/dane.csv', mode='a', newline='') as file:
@@ -90,12 +114,20 @@ def opis_strony():
 
 @app.route('/lista_usterek')
 def lista():
-    with open('data/dane.csv', mode='r') as file:
-        reader = csv.reader(file)
-        data = list(reader)
-    return render_template("lista_usterek.html", active_menu = 'lista', data=data)
+    db = get_db()
+    sql_command = 'select nr_pokoju, nazwisko, opis_usterki, priorytet from usterki;'
+    cur = db.execute(sql_command)
+    transaction = cur.fetchall()
 
+    return render_template("lista_usterek.html",transaction = transaction, active_menu = 'lista')
 
+# def lista():
+#     with open('data/dane.csv', mode='r') as file:
+#         reader = csv.reader(file)
+#         data = list(reader)
+#     return render_template("lista_usterek.html", active_menu = 'lista', data=data)
+#
+# a=''
 
 if __name__ == '__main__':
     app.run(debug=True)

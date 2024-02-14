@@ -12,18 +12,25 @@
     </tr>
   </thead>
   <tbody>
-   {% for row in data %}
+   {% for transaction in transaction %}
     <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-        <td>{{row[3]}}</td>
+      <td>{{transaction.nr_pokoju}}</td>
+      <td>{{transaction.nazwisko}}</td>
+      <td>{{transaction.opis_usterki}}</td>
+        <td>{{transaction.priorytet}}</td>
+      <td>
+        <button type="button" class="btn btn-primary btn-sm">ACTION</button>
+  <button type="button" class="btn btn-success btn-sm">EDIT</button>
+  <button type="button" class="btn btn-danger">DELETE</button>
+
+      </td>
     </tr>
+
   {% endfor %}
 
   </tbody>
 </table>
-
+<
 
 
 {% endblock %}
