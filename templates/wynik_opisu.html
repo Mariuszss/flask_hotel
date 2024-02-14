@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<p class="lead">
+  Pan/Pani {{nazwisko}} mieszkajacy w pokoju {{numer_pokoju}} zglasza usterkę {{opis_usterki}} z priorytetem {{priorytet}}
+</p>
+
+
+
+
+
+  {% if priorytet == 'low' %}
+    <h1 class="display-1">nie ma pośpiechu</h1>
+   {% elif priorytet == 'medium' %}
+   <h1 class="display-1">jutro zrobimy</h1>
+     {% else %}
+   <h1 class="display-1">Do roboty</h1>
+
+
+ {% endif %}
+<h1 class="display-1">dane zostały zapisane</h1>
+
+
+{% endblock %}

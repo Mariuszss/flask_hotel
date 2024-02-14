@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Zgłoszenie usterki</h1>
+
+<div class="mb-3">
+  <form id="zgloszenie" action="{{url_for('zgloszenie')}}" method="post">
+
+    <label for="numer_pokoju" class="form-label">NUMER_POKOJU</label>
+    <textarea class="form-control" id="numer_pokoju" name = 'numer_pokoju' rows="1"></textarea><br>
+
+    <label for="nazwisko" class="form-label">NAZWISKO</label>
+    <textarea class="form-control" id="nazwisko" name = 'nazwisko' rows="1"></textarea>
+
+    <label for="opis_usterki" class="form-label">OPIS_USTERKI</label>
+    <textarea class="form-control" id="opis_usterki" name = 'opis_usterki' rows="2"></textarea>
+
+
+    <select class="form-select" aria-label="Default select example" id="priorytet" name="priorytet">
+      {% for i in lista %}
+      <option value="{{ i.code }}" {{ i.selected }}>{{ i.description }}</option>
+      {% endfor %}
+    </select>
+
+    <br>
+
+    <input type="submit" value="Zgłoś usterkę">
+  </form>
+</div>
+
+
+
+{% endblock %}

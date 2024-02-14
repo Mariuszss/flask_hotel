@@ -1,0 +1,12 @@
+{% macro show_flash_message(message) %}
+    <ul> <li>{{message}}</li>
+         </ul>
+{% endmacro %}
+
+{% macro show_all_flash_message() %}
+    {% for message in geg_flashed_messages()%}
+    <ul> <li>{{message}}</li>
+         </ul>
+    {% endfor%}
+{% endmacro %}
+
