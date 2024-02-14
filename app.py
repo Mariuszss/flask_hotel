@@ -95,7 +95,7 @@ def lista():
         data = list(reader)
     return render_template("lista_usterek.html", active_menu = 'lista', data=data)
 
-
+a=''
 
 if __name__ == '__main__':
     app.run(debug=True)
